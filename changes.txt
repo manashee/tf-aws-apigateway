@@ -1,0 +1,5 @@
+1. change to use env variables for authentication
+2. inject the swagger file name as an input argument to the module
+3. 
+2. change to use IAM roles
+3. 
