@@ -1,9 +1,21 @@
+#provider "aws" {
+#  access_key = ""
+#  secret_key = ""
+#  profile                           =   "default"
+#  region                            =   "${var.aws_region}"
+#}
+
 provider "aws" {
-  access_key = "AKIATDV4HURTFBAU3AOB"
-  secret_key = "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"
-  profile                           =   "default"
-  region                            =   "${var.aws_region}"
+  region                  =  "ap-south-1" 
+  shared_credentials_file = "/Users/ashokkumar/.aws/credentials"
+  profile                 = "default"
 }
+
+#module "api-gateway" {
+#  source  = "kurron/api-gateway/aws"
+#  version = "0.9.1"
+#  # insert the 6 required variables here
+#}
 
 module "api_gateway"{
     source  = "./modules/api_gateway"
