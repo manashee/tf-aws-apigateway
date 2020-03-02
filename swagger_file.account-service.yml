@@ -1,0 +1,438 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Account Management Service REST API
+host: 'localhost:8080'
+basePath: /
+tags:
+  - name: User Management System
+    description: User Resource
+paths:
+  /v1/users/accessprofiles:
+    post:
+      tags:
+        - User Management System
+      summary: Provides an ability to create access profile
+      operationId: createAccessProfileUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: accessProfile
+          description: Access Profile object store in access profile table
+          required: true
+          schema:
+            $ref: '#/definitions/OfficeAccessProfile'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/OfficeAccessProfile'
+        '201':
+          description: Successfully created an access profile
+          schema:
+            $ref: '#/definitions/OfficeAccessProfile'
+        '400':
+          description: Unable to create an access profile
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /v1/users/roles:
+    post:
+      tags:
+        - User Management System
+      summary: Provides an ability to create role
+      operationId: createRoleUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: role
+          description: Role object store in role table
+          required: true
+          schema:
+            $ref: '#/definitions/Role'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Role'
+        '201':
+          description: Successfully created a role
+          schema:
+            $ref: '#/definitions/Role'
+        '400':
+          description: Unable to create a role
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/users/roles/{id}':
+    get:
+      tags:
+        - User Management System
+      summary: Provides an ability to view a role's details by unique identifier 'id'
+      operationId: getRoleUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: roleId
+          required: false
+          type: integer
+          format: int64
+          x-example: 1
+      responses:
+        '200':
+          description: Successfully found a role with the given id
+          schema:
+            $ref: '#/definitions/Role'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Unable to find the role based on the provided id
+      deprecated: false
+  '/v1/users/roles/{id}/accessprofiles/{accessProfileId}':
+    post:
+      tags:
+        - User Management System
+      summary: Provides an ability to assign profile to role
+      operationId: assignProfileUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: accessProfileId
+          in: path
+          description: Access Profile Id
+          required: true
+          type: integer
+          format: int64
+        - name: id
+          in: path
+          description: Role Id
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Role'
+        '201':
+          description: Successfully assigned an access profile to a role
+          schema:
+            $ref: '#/definitions/Role'
+        '400':
+          description: Unable to assign an access profile to a role
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/v1/users/{id}':
+    get:
+      tags:
+        - User Management System
+      summary: Provides an ability to view user details identified by 'id'
+      operationId: getUserDetailsUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: userId
+          required: false
+          type: integer
+          format: int64
+          x-example: 1
+      responses:
+        '200':
+          description: Successfully found a user with the given id
+          schema:
+            $ref: '#/definitions/User'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Unable to find the user based on the provided id
+      deprecated: false
+  '/v1/users/{id}/assets':
+    get:
+      tags:
+        - User Management System
+      summary: Provides an ability to view Offices which are accessible to user identified by 'id'
+      operationId: getOfficeListUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int64
+        - name: type
+          in: query
+          description: type
+          required: true
+          type: string
+          enum:
+            - ALL
+            - OFFICE
+      responses:
+        '200':
+          description: Successfully found a role with the given id
+          schema:
+            type: array
+            items:
+              type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Unable to find the user based on the provided id
+      deprecated: false
+  '/v1/users/{id}/roles/{roleId}':
+    post:
+      tags:
+        - User Management System
+      summary: Provides an ability to assign role to user
+      operationId: assignRoleUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int64
+        - name: roleId
+          in: path
+          description: roleId
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/User'
+        '201':
+          description: Successfully assigned a role to a user
+          schema:
+            $ref: '#/definitions/User'
+        '400':
+          description: Unable to assign a role to user
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+definitions:
+  AccessProfile:
+    type: object
+    properties:
+      description:
+        type: string
+        description: The description of the access profile
+      id:
+        type: integer
+        format: int64
+        description: The database generated role ID
+      name:
+        type: string
+        description: Name of the access profile
+    title: AccessProfile
+    description: Access Profile defines what entities can be access by a user
+  Account:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      members:
+        type: array
+        items:
+          $ref: '#/definitions/Account'
+      name:
+        type: string
+      owner:
+        $ref: '#/definitions/User'
+      priority:
+        $ref: '#/definitions/Priority'
+    title: Account
+    description: Account Details of a user or a corporate
+  Address:
+    type: object
+    properties:
+      line1:
+        type: string
+      line2:
+        type: string
+    title: Address
+    description: address details of the user
+  Asset:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+        description: The database generated ID of the unit
+      name:
+        type: string
+        description: Name of the Unit
+    title: Asset
+    description: Business Unit details
+  Email:
+    type: object
+    properties:
+      email:
+        type: string
+        description: email of the user
+    title: Email
+    description: user email details
+  Name:
+    type: object
+    properties:
+      firstName:
+        type: string
+        description: first name of the user
+      lastName:
+        type: string
+        description: last name of the user
+    title: Name
+    description: name of the user
+  Office:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+        description: The database generated ID of the unit
+      location:
+        type: string
+        description: location of the office
+      name:
+        type: string
+        description: Name of the Unit
+    title: Office
+    description: Office details
+  OfficeAccessProfile:
+    type: object
+    properties:
+      description:
+        type: string
+        description: The description of the access profile
+      entities:
+        type: array
+        description: a list of entities
+        items:
+          $ref: '#/definitions/Office'
+      id:
+        type: integer
+        format: int64
+        description: The database generated role ID
+      name:
+        type: string
+        description: Name of the access profile
+    title: OfficeAccessProfile
+    description: Office Access Profile defines what offices can be accessed
+  Phone:
+    type: object
+    properties:
+      countryCode:
+        type: string
+        description: countrycode of the user
+      phone:
+        type: string
+        description: phone number of the user
+    title: Phone
+    description: user phone number details
+  Priority:
+    type: object
+    properties:
+      weightage:
+        type: integer
+        format: int32
+    title: Priority
+  Profile:
+    type: object
+    properties:
+      address:
+        description: address details of the user
+        $ref: '#/definitions/Address'
+      email:
+        description: email details of the user
+        $ref: '#/definitions/Email'
+      name:
+        description: name of the user
+        $ref: '#/definitions/Name'
+      phone:
+        description: phone number of the user
+        $ref: '#/definitions/Phone'
+    title: Profile
+    description: user profile details
+  Role:
+    type: object
+    required:
+      - name
+    properties:
+      accessProfiles:
+        type: array
+        description: The access profiles attached to the role
+        items:
+          $ref: '#/definitions/AccessProfile'
+      id:
+        type: integer
+        format: int64
+        description: The database generated role ID
+      name:
+        type: string
+        description: The description of the role
+    title: Role
+    description: Role defines permissions for users to perform a group of tasks
+  User:
+    type: object
+    properties:
+      account:
+        description: Details of user account
+        $ref: '#/definitions/Account'
+      id:
+        type: integer
+        format: int64
+        description: The auto generated user ID
+      profile:
+        description: The profile details of the use
+        $ref: '#/definitions/Profile'
+      roles:
+        type: array
+        description: roles assigned to the user
+        items:
+          $ref: '#/definitions/Role'
+    title: User
+    description: User Details

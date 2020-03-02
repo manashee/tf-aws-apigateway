@@ -1,0 +1,262 @@
+{
+   "swagger":"2.0",
+   "info":{
+      "description":"Simple REST API Generation",
+      "version":"0.0.1-SNAPSHOT",
+      "title":"REST API for Reef location service",
+      "license":{
+         "url":"https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+   },
+   "host":"localhost:9001",
+   "basePath":"/api",
+   "tags":[
+      {
+         "name":"Location Service System",
+         "description":"Location Controller"
+      }
+   ],
+   "paths":{
+      "/v1/locations":{
+         "post":{
+            "tags":[
+               "Location Service System"
+            ],
+            "summary":"Provides an ability to create new location",
+            "operationId":"addNewLocationUsingPOST",
+            "consumes":[
+               "application/json"
+            ],
+            "produces":[
+               "application/json"
+            ],
+            "parameters":[
+               {
+                  "in":"body",
+                  "name":"addLocationRequest",
+                  "description":"addLocationRequest",
+                  "required":true,
+                  "schema":{
+                     "$ref":"#/definitions/AddLocationRequest"
+                  }
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"OK",
+                  "schema":{
+                     "$ref":"#/definitions/LocationResponse"
+                  }
+               },
+               "201":{
+                  "description":"Successfully create new location",
+                  "schema":{
+                     "$ref":"#/definitions/LocationResponse"
+                  }
+               },
+               "400":{
+                  "description":"Unable to create new location, bed request"
+               },
+               "401":{
+                  "description":"Unauthorized"
+               },
+               "403":{
+                  "description":"Forbidden"
+               },
+               "404":{
+                  "description":"Not Found"
+               },
+               "500":{
+                  "description":"Internal server error"
+               }
+            },
+            "deprecated":false
+         }
+      },
+      "/v1/locations/{id}":{
+         "get":{
+            "tags":[
+               "Location Service System"
+            ],
+            "summary":"Provides an ability to view Location identified by 'id'",
+            "operationId":"getLocationByIdUsingGET",
+            "produces":[
+               "application/json"
+            ],
+            "parameters":[
+               {
+                  "name":"id",
+                  "in":"path",
+                  "description":"Location Id",
+                  "required":true,
+                  "type":"integer",
+                  "format":"int64"
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"Successfully found location with the given id",
+                  "schema":{
+                     "$ref":"#/definitions/LocationResponse"
+                  }
+               },
+               "401":{
+                  "description":"Unauthorized"
+               },
+               "403":{
+                  "description":"Forbidden"
+               },
+               "404":{
+                  "description":"Unable to find location with the given id"
+               },
+               "500":{
+                  "description":"Internal server error"
+               }
+            },
+            "deprecated":false
+         }
+      }
+   },
+   "definitions":{
+      "AddLocationRequest":{
+         "type":"object",
+         "properties":{
+            "address":{
+               "type":"string",
+               "description":"Location address"
+            },
+            "capacity":{
+               "type":"integer",
+               "format":"int32",
+               "description":"Location parking capacity"
+            },
+            "city":{
+               "type":"string",
+               "description":"Location city"
+            },
+            "countryCode":{
+               "type":"string",
+               "description":"Location country code"
+            },
+            "currency":{
+               "type":"string",
+               "description":"Location currency"
+            },
+            "externalId":{
+               "type":"integer",
+               "format":"int64",
+               "description":"Location external id"
+            },
+            "latitude":{
+               "type":"number",
+               "format":"float",
+               "description":"Location latitude"
+            },
+            "locationName":{
+               "type":"string",
+               "description":"Location name"
+            },
+            "longitude":{
+               "type":"number",
+               "format":"float",
+               "description":"Location longitude"
+            },
+            "operatorId":{
+               "type":"integer",
+               "format":"int64",
+               "description":"Location operator id"
+            },
+            "parkingDescription":{
+               "type":"string",
+               "description":"Location description"
+            },
+            "parkingPhone":{
+               "type":"string",
+               "description":"Location phone"
+            },
+            "postCode":{
+               "type":"string",
+               "description":"Location post code"
+            },
+            "timezone":{
+               "type":"string",
+               "description":"Location timezone"
+            }
+         },
+         "title":"AddLocationRequest"
+      },
+      "LocationResponse":{
+         "type":"object",
+         "properties":{
+            "address":{
+               "type":"string",
+               "description":"Location address"
+            },
+            "capacity":{
+               "type":"integer",
+               "format":"int32",
+               "description":"Location parking capacity"
+            },
+            "city":{
+               "type":"string",
+               "description":"Location city"
+            },
+            "countryCode":{
+               "type":"string",
+               "description":"Location country code"
+            },
+            "currency":{
+               "type":"string",
+               "description":"Location currency"
+            },
+            "externalId":{
+               "type":"integer",
+               "format":"int64",
+               "description":"Location external id"
+            },
+            "id":{
+               "type":"integer",
+               "format":"int64",
+               "description":"Location id"
+            },
+            "latitude":{
+               "type":"number",
+               "format":"float",
+               "description":"Location latitude"
+            },
+            "locationName":{
+               "type":"string",
+               "description":"Location name"
+            },
+            "longitude":{
+               "type":"number",
+               "format":"float",
+               "description":"Location longitude"
+            },
+            "operatorId":{
+               "type":"integer",
+               "format":"int64",
+               "description":"Location operator id"
+            },
+            "parkingDescription":{
+               "type":"string",
+               "description":"Location description"
+            },
+            "parkingPhone":{
+               "type":"string",
+               "description":"Location phone"
+            },
+            "postCode":{
+               "type":"string",
+               "description":"Location post code"
+            },
+            "timezone":{
+               "type":"string",
+               "description":"Location timezone"
+            }
+         },
+         "title":"LocationResponse",
+         "description":"Locations details"
+      }
+   }
+}
