@@ -10,4 +10,3 @@ resource "aws_api_gateway_rest_api" "api" {
  body = "${data.template_file.codingtips_api_swagger.rendered}"
 }
 
-
